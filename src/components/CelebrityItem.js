@@ -63,8 +63,11 @@ const CelebrityItem = React.memo(
 		}, [setEditMode]);
 
 		const handleChange = useCallback((e, field) => {
-			const value =
+			let value =
 				e.target.type === 'number' ? Number(e.target.value) : e.target.value;
+			if (field === 'country') {
+				value = value.replace(new RegExp('[0-9]'), '');
+			}
 			setEditedCelebrity((prev) => {
 				if (prev[field] === value) return prev;
 				return { ...prev, [field]: value };
