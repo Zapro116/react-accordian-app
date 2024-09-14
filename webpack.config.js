@@ -3,9 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const BundleAnalyzerPlugin =
-	require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
+const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, argv) => {
@@ -45,7 +43,9 @@ module.exports = (env, argv) => {
 			new HtmlWebpackPlugin({
 				template: './public/index.html',
 			}),
-			isProduction && new BundleAnalyzerPlugin(),
+			new CopyPlugin({
+				patterns: [{ from: 'public/celebrities.json', to: 'celebrities.json' }],
+			}),
 			isProduction &&
 				new MiniCssExtractPlugin({
 					filename: '[name].[contenthash].css',
